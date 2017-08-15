@@ -80,3 +80,8 @@
   - name: Install renewal cron
     become: yes
     cron: name="Let's Encrypt Renewal" day="{{ letsencrypt_renewal_frequency.day }}" hour="{{ letsencrypt_renewal_frequency.hour }}" minute="{{ letsencrypt_renewal_frequency.minute }}" job="{{ letsencrypt_venv }}/bin/letsencrypt renew {{ letsencrypt_renewal_command_args }} > /dev/null"
+
+  - name: Lock idna to version 2.5 to avoid letsencrypt renewal failure
+    command: "{{ letsencrypt_venv }}/bin/pip install idna==2.5"
+    become: yes
+    ignore_errors: True
